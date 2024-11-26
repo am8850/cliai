@@ -32,23 +32,27 @@ func ExecShell(confirm bool, command string, args []string) {
 }
 
 func Process(systemMessage, prompt string, confirm bool) {
+	// Create the system and user messages
 	system := Message{Role: "system", Content: systemMessage}
 	user := Message{Role: "user", Content: prompt}
 	messages := []Message{system, user}
+
+	// Execute the chat completion
 	jdata, err := ChatCompletion(messages, app.ChatModel, 0.1)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	//fmt.Println(jdata)
 
+	// Unmarshal the JSON data into a slice of commands
 	var commands []Command
 	err = json.Unmarshal([]byte(jdata), &commands)
 	if err != nil {
 		log.Println("Unable to parse the command:", err)
 		return
 	}
-	//fmt.Println(confirm)
+
+	// Execute the commands
 	for _, command := range commands {
 		ExecShell(confirm, command.Command, command.Args)
 	}

@@ -47,6 +47,9 @@ func main() {
 	rootCmd := &cobra.Command{
 		Use:   "cliai",
 		Short: "A simple CLI AI helper for git, az, and kubernetes",
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("Welcome to CLIAI!")
+		},
 	}
 
 	// Add the root command to the application
@@ -70,7 +73,7 @@ func main() {
 			}
 			system := `You are an AI that can help generate git commands.
 Rules:
-- If configuring the user name or email address, put the user name or email address in double quotes, and configure locally unless the user specifies global.
+- If configuring the user name or email address, put the user name or email address in double quotes and configure locally unless the user specifies global.
 
 No prologue or epilogue. Respond in the following JSON format:
 [
@@ -133,7 +136,7 @@ No prologue or epilogue. Respond in the following JSON format:
 		Use:   "version",
 		Short: "Print the application version",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("MyApp version 1.0")
+			fmt.Println("CLIAI version 1.0")
 		},
 	}
 
