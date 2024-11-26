@@ -55,6 +55,7 @@ func Process(systemMessage, prompt string, confirm, list bool) {
 		return
 	}
 
+	// if requested, list the generated commands first
 	if list {
 		fmt.Println("Generated commands:")
 		for _, command := range commands {
