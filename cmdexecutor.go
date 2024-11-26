@@ -11,9 +11,9 @@ import (
 
 func ExecShell(confirm bool, command string, args []string) {
 
-	fmt.Println("Execute command:")
+	fmt.Print("Generated command: ")
 	//sargs := strings.Join(args, "")
-	color.Cyan.Println("  ", command, args)
+	color.Cyan.Println(command, args)
 	if confirm {
 		confirm = askForConfirmation("Do you want to execute the command?")
 		if !confirm {
@@ -29,7 +29,7 @@ func ExecShell(confirm bool, command string, args []string) {
 			log.Fatal(err)
 		}
 		// Print the output
-		fmt.Println("\nOutput:")
+		fmt.Println()
 		color.Green.Print(string(out))
 	}
 }
