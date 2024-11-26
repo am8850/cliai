@@ -11,7 +11,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var app App
+var (
+	app     App
+	confirm bool
+)
 
 func askForConfirmation(s string) bool {
 	var response string
@@ -71,15 +74,16 @@ func main() {
 				log.Fatal(err)
 			}
 			if prompt == "" {
-				log.Println("You need to provide a prompt")
+				fmt.Println("Please provide a command. Example:")
+				color.Cyan.Println("cliai git -p 'List all branches'")
 				return
 			}
 
-			confirm, err := cmd.Flags().GetString("confirm")
-			if err != nil {
-				log.Println("Unable to get the confirm flag:", err)
-				return
-			}
+			// confirm, err := cmd.Flags().GetString("confirm")
+			// if err != nil {
+			// 	log.Println("Unable to get the confirm flag:", err)
+			// 	return
+			// }
 			system := `You are an AI that can help generate git commands.
 Rules:
 - If configuring the user name or email address, put the user name or email address in double quotes and configure locally unless the user specifies global.
@@ -89,11 +93,9 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "git", "args": ["add", "."] },
 ]`
-			Process(system, prompt, confirm == "y")
+			Process(system, prompt, !confirm)
 		},
 	}
-	gitCmd.Flags().StringP("prompt", "p", "", "Prompt to execute")
-	gitCmd.Flags().StringP("confirm", "c", "y", "Confirm execution")
 
 	// Add the root command to the application
 	azCmd := &cobra.Command{
@@ -104,8 +106,10 @@ No prologue or epilogue. Respond in the following JSON format:
 			if err != nil {
 				log.Fatal(err)
 			}
-			if prompt != "" {
-				fmt.Println("You entered:", prompt)
+			if prompt == "" {
+				fmt.Println("Please provide a command. Example:")
+				color.Cyan.Println("cliai az -p 'Show account information'")
+				return
 			}
 			system := `You are an AI that can help generate Azure CLI (az) commands.
 
@@ -116,10 +120,9 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "az", "args": ["account", "show"] },
 ]`
-			Process(system, prompt, true)
+			Process(system, prompt, !confirm)
 		},
 	}
-	azCmd.Flags().StringP("prompt", "p", "", "Pass a prompt to the AI model")
 
 	// Add the root command to the application
 	k8sCmd := &cobra.Command{
@@ -130,8 +133,10 @@ No prologue or epilogue. Respond in the following JSON format:
 			if err != nil {
 				log.Fatal(err)
 			}
-			if prompt != "" {
-				fmt.Println("You entered:", prompt)
+			if prompt == "" {
+				fmt.Println("Please provide a command. Example:")
+				color.Cyan.Println("cliai k8s -p 'List all pods'")
+				return
 			}
 			system := `You are an AI that can help generate Kubernetes (kubctl) commands.
 
@@ -142,10 +147,9 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "kubectl", "args": ["get", "-A"] },
 ]`
-			Process(system, prompt, true)
+			Process(system, prompt, !confirm)
 		},
 	}
-	k8sCmd.Flags().StringP("prompt", "p", "", "Pass a prompt to the AI model")
 
 	// Create the version command
 	versionCmd := &cobra.Command{
@@ -161,6 +165,8 @@ No prologue or epilogue. Respond in the following JSON format:
 	rootCmd.AddCommand(azCmd)
 	rootCmd.AddCommand(k8sCmd)
 	rootCmd.AddCommand(versionCmd)
+	rootCmd.PersistentFlags().StringP("prompt", "p", "", "CLI prompt")
+	rootCmd.PersistentFlags().BoolVarP(&confirm, "disable", "d", false, "disable command confirmation")
 
 	// Execute the root command
 	if err := rootCmd.Execute(); err != nil {
