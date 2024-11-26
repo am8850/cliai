@@ -34,7 +34,7 @@ func ExecShell(confirm bool, command string, args []string) {
 	}
 }
 
-func Process(systemMessage, prompt string, confirm bool) {
+func Process(systemMessage, prompt string, confirm, list bool) {
 	// Create the system and user messages
 	system := Message{Role: "system", Content: systemMessage}
 	user := Message{Role: "user", Content: prompt}
@@ -53,6 +53,14 @@ func Process(systemMessage, prompt string, confirm bool) {
 	if err != nil {
 		log.Println("Unable to parse the command:", err)
 		return
+	}
+
+	if list {
+		fmt.Println("Generated commands:")
+		for _, command := range commands {
+			color.Cyan.Println(command.Command, command.Args)
+		}
+		fmt.Println()
 	}
 
 	// Execute the commands

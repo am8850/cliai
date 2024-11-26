@@ -87,7 +87,7 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "git", "args": ["add", "."] },
 ]`
-			Process(system_prompt, prompt, !confirm)
+			Process(system_prompt, prompt, !confirm, list)
 		},
 	}
 
@@ -110,7 +110,7 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "az", "args": ["account", "show"] },
 ]`
-			Process(system_prompt, prompt, !confirm)
+			Process(system_prompt, prompt, !confirm, list)
 		},
 	}
 
@@ -133,7 +133,7 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "kubectl", "args": ["get", "-A"] },
 ]`
-			Process(system_prompt, prompt, !confirm)
+			Process(system_prompt, prompt, !confirm, list)
 		},
 	}
 
@@ -154,7 +154,7 @@ No prologue or epilogue. Respond in the following JSON format:
 
 	rootCmd.PersistentFlags().StringVarP(&prompt, "prompt", "p", "", "natural language CLI prompt")
 	rootCmd.PersistentFlags().BoolVarP(&confirm, "disable", "d", false, "disable command confirmation")
-	rootCmd.PersistentFlags().BoolVarP(&list, "list", "l", false, "list all commands")
+	rootCmd.PersistentFlags().BoolVarP(&list, "list", "l", false, "list all commands first")
 
 	// Execute the root command
 	if err := rootCmd.Execute(); err != nil {
