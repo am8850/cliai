@@ -47,8 +47,17 @@ func main() {
 	rootCmd := &cobra.Command{
 		Use:   "cliai",
 		Short: "A simple CLI AI helper for git, az, and kubernetes",
+		Long:  `cliai is a simple CLI AI helper that can generate git, Azure CLI (az), and Kubernetes (kubectl) commands based on user prompts.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Welcome to CLIAI!")
+			text := ` ██████╗██╗     ██╗ █████╗ ██╗
+██╔════╝██║     ██║██╔══██╗██║
+██║     ██║     ██║███████║██║
+██║     ██║     ██║██╔══██║██║
+╚██████╗███████╗██║██║  ██║██║
+ ╚═════╝╚══════╝╚═╝╚═╝  ╚═╝╚═╝
+                              `
+			fmt.Println(text)
+			fmt.Println("A simple CLI AI helper for git, az, and kubernetes")
 		},
 	}
 
@@ -74,6 +83,7 @@ func main() {
 			system := `You are an AI that can help generate git commands.
 Rules:
 - If configuring the user name or email address, put the user name or email address in double quotes and configure locally unless the user specifies global.
+- If the user requests something not related to git, respond with "I can only help to generate git commands".
 
 No prologue or epilogue. Respond in the following JSON format:
 [
@@ -99,6 +109,9 @@ No prologue or epilogue. Respond in the following JSON format:
 			}
 			system := `You are an AI that can help generate Azure CLI (az) commands.
 
+Rules:
+- If the user requests something not related to az commands or operations, respond with "I can only help to generate az commands".
+
 No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "az", "args": ["account", "show"] },
@@ -121,6 +134,9 @@ No prologue or epilogue. Respond in the following JSON format:
 				fmt.Println("You entered:", prompt)
 			}
 			system := `You are an AI that can help generate Kubernetes (kubctl) commands.
+
+Rules:
+- If the user requests something not related to kubernetes commands or operations, respond with "I can only help to generate kubectl commands".
 
 No prologue or epilogue. Respond in the following JSON format:
 [

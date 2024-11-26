@@ -21,14 +21,17 @@ func ExecShell(confirm bool, command string, args []string) {
 			return
 		}
 	}
+
 	// Execute the command
-	out, err := exec.Command(command, args...).Output()
-	if err != nil {
-		log.Fatal(err)
+	if command == "kubectl" || command == "az" || command == "git" {
+		out, err := exec.Command(command, args...).Output()
+		if err != nil {
+			log.Fatal(err)
+		}
+		// Print the output
+		fmt.Println("\nOutput:")
+		color.Green.Print(string(out))
 	}
-	// Print the output
-	fmt.Println("\nOutput:")
-	color.Green.Print(string(out))
 }
 
 func Process(systemMessage, prompt string, confirm bool) {
