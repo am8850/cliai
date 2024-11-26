@@ -14,6 +14,7 @@ import (
 var (
 	app     App
 	confirm bool
+	prompt  string
 )
 
 func askForConfirmation(s string) bool {
@@ -59,32 +60,24 @@ func main() {
 ╚██████╗███████╗██║██║  ██║██║
  ╚═════╝╚══════╝╚═╝╚═╝  ╚═╝╚═╝
                               `
+			fmt.Println()
 			fmt.Println(text)
-			fmt.Println("A simple CLI AI helper for git, az, and kubernetes")
+			fmt.Println("CLI Commander: A simple CLI AI helper for git, az, and kubectl")
 		},
 	}
 
 	// Add the root command to the application
 	gitCmd := &cobra.Command{
 		Use:   "git",
-		Short: "execute git CLI commands",
+		Short: "Generate and execute git CLI commands",
 		Run: func(cmd *cobra.Command, args []string) {
-			prompt, err := cmd.Flags().GetString("prompt")
-			if err != nil {
-				log.Fatal(err)
-			}
 			if prompt == "" {
 				fmt.Println("Please provide a command. Example:")
 				color.Cyan.Println("cliai git -p 'List all branches'")
 				return
 			}
 
-			// confirm, err := cmd.Flags().GetString("confirm")
-			// if err != nil {
-			// 	log.Println("Unable to get the confirm flag:", err)
-			// 	return
-			// }
-			system := `You are an AI that can help generate git commands.
+			system_prompt := `You are an AI that can help generate git commands.
 Rules:
 - If configuring the user name or email address, put the user name or email address in double quotes and configure locally unless the user specifies global.
 - If the user requests something not related to git, respond with "I can only help to generate git commands".
@@ -93,25 +86,21 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "git", "args": ["add", "."] },
 ]`
-			Process(system, prompt, !confirm)
+			Process(system_prompt, prompt, !confirm)
 		},
 	}
 
 	// Add the root command to the application
 	azCmd := &cobra.Command{
 		Use:   "az",
-		Short: "az - execute Azure CLI commands",
+		Short: "Generate and execute Azure CLI commands",
 		Run: func(cmd *cobra.Command, args []string) {
-			prompt, err := cmd.Flags().GetString("prompt")
-			if err != nil {
-				log.Fatal(err)
-			}
 			if prompt == "" {
 				fmt.Println("Please provide a command. Example:")
 				color.Cyan.Println("cliai az -p 'Show account information'")
 				return
 			}
-			system := `You are an AI that can help generate Azure CLI (az) commands.
+			system_prompt := `You are an AI that can help generate Azure CLI (az) commands.
 
 Rules:
 - If the user requests something not related to az commands or operations, respond with "I can only help to generate az commands".
@@ -120,25 +109,21 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "az", "args": ["account", "show"] },
 ]`
-			Process(system, prompt, !confirm)
+			Process(system_prompt, prompt, !confirm)
 		},
 	}
 
 	// Add the root command to the application
 	k8sCmd := &cobra.Command{
 		Use:   "k8s",
-		Short: "k8s - execute Kubernetes CLI commands",
+		Short: "Generate and execute Kubernetes CLI commands",
 		Run: func(cmd *cobra.Command, args []string) {
-			prompt, err := cmd.Flags().GetString("prompt")
-			if err != nil {
-				log.Fatal(err)
-			}
 			if prompt == "" {
 				fmt.Println("Please provide a command. Example:")
 				color.Cyan.Println("cliai k8s -p 'List all pods'")
 				return
 			}
-			system := `You are an AI that can help generate Kubernetes (kubctl) commands.
+			system_prompt := `You are an AI that can help generate Kubernetes (kubctl) commands.
 
 Rules:
 - If the user requests something not related to kubernetes commands or operations, respond with "I can only help to generate kubectl commands".
@@ -147,7 +132,7 @@ No prologue or epilogue. Respond in the following JSON format:
 [
 	{ "command": "kubectl", "args": ["get", "-A"] },
 ]`
-			Process(system, prompt, !confirm)
+			Process(system_prompt, prompt, !confirm)
 		},
 	}
 
@@ -165,7 +150,8 @@ No prologue or epilogue. Respond in the following JSON format:
 	rootCmd.AddCommand(azCmd)
 	rootCmd.AddCommand(k8sCmd)
 	rootCmd.AddCommand(versionCmd)
-	rootCmd.PersistentFlags().StringP("prompt", "p", "", "CLI prompt")
+
+	rootCmd.PersistentFlags().StringVarP(&prompt, "prompt", "p", "", "CLI prompt")
 	rootCmd.PersistentFlags().BoolVarP(&confirm, "disable", "d", false, "disable command confirmation")
 
 	// Execute the root command
