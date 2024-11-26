@@ -15,6 +15,7 @@ var (
 	app     App
 	confirm bool
 	prompt  string
+	list    bool
 )
 
 func askForConfirmation(s string) bool {
@@ -151,8 +152,9 @@ No prologue or epilogue. Respond in the following JSON format:
 	rootCmd.AddCommand(k8sCmd)
 	rootCmd.AddCommand(versionCmd)
 
-	rootCmd.PersistentFlags().StringVarP(&prompt, "prompt", "p", "", "CLI prompt")
+	rootCmd.PersistentFlags().StringVarP(&prompt, "prompt", "p", "", "natural language CLI prompt")
 	rootCmd.PersistentFlags().BoolVarP(&confirm, "disable", "d", false, "disable command confirmation")
+	rootCmd.PersistentFlags().BoolVarP(&list, "list", "l", false, "list all commands")
 
 	// Execute the root command
 	if err := rootCmd.Execute(); err != nil {
