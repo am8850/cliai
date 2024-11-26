@@ -43,7 +43,8 @@ func Process(systemMessage, prompt string, confirm, list bool) {
 	// Execute the chat completion
 	jdata, err := ChatCompletion(messages, app.ChatModel, 0.1)
 	if err != nil {
-		log.Println(err)
+		fmt.Println("Unable to generate a completion with error:")
+		color.Red.Println(err)
 		return
 	}
 
@@ -51,7 +52,8 @@ func Process(systemMessage, prompt string, confirm, list bool) {
 	var commands []Command
 	err = json.Unmarshal([]byte(jdata), &commands)
 	if err != nil {
-		log.Println("Unable to parse the command:", err)
+		fmt.Println("Unable to parse the command with error:")
+		color.Red.Println(err)
 		return
 	}
 
