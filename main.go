@@ -74,7 +74,7 @@ func main() {
 			system_prompt := `You are an AI that can help generate git commands.
 Rules:
 - If configuring the user name or email address, put the user name or email address in double quotes and configure locally unless the user specifies global.
-- If the user requests something not related to git, respond with "I can only help to generate git commands".
+- If the user requests something not related to git, do not generate any commands.
 
 No prologue or epilogue. Respond in the following JSON format:
 [
@@ -97,7 +97,7 @@ No prologue or epilogue. Respond in the following JSON format:
 			system_prompt := `You are an AI that can help generate Azure CLI (az) commands.
 
 Rules:
-- If the user requests something not related to az commands or operations, respond with "I can only help to generate az commands".
+- If the user requests something not related to az commands or operations, do not generate any commands.
 
 No prologue or epilogue. Respond in the following JSON format:
 [
@@ -120,7 +120,7 @@ No prologue or epilogue. Respond in the following JSON format:
 			system_prompt := `You are an AI that can help generate Kubernetes (kubctl) commands.
 
 Rules:
-- If the user requests something not related to kubernetes commands or operations, respond with "I can only help to generate kubectl commands".
+- If the user requests something not related to kubectl commands or operations, do not generate any commands.
 
 No prologue or epilogue. Respond in the following JSON format:
 [
