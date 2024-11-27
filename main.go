@@ -18,13 +18,6 @@ var (
 	list    bool
 )
 
-func askForConfirmation(s string) bool {
-	var response string
-	color.Yellow.Printf("%s (y/n): ", s)
-	fmt.Scanln(&response)
-	return response == "y" || response == "Y"
-}
-
 func init() {
 	// Get the executable path and directory
 	exePath, err := os.Executable()
@@ -33,7 +26,7 @@ func init() {
 	}
 	exeDir := filepath.Dir(exePath)
 
-	// Read JSON file
+	// Read configuration JSON file
 	bytes, err := os.ReadFile(exeDir + "/openai.json")
 	if err != nil {
 		log.Fatal(err)
@@ -51,7 +44,7 @@ func main() {
 	// Create the root command
 	rootCmd := &cobra.Command{
 		Use:   "cliai",
-		Short: "A simple CLI AI helper for git, az, and kubernetes",
+		Short: "cliai - A simple CLI AI helper for git, az, and kubernetes",
 		Long:  `cliai is a simple CLI AI helper that can generate git, Azure CLI (az), and Kubernetes (kubectl) commands based on user prompts.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			text := ` ██████╗██╗     ██╗ █████╗ ██╗
