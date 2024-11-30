@@ -19,17 +19,22 @@ var (
 )
 
 func init() {
-	// Get the executable path and directory
-	exePath, err := os.Executable()
-	if err != nil {
-		log.Fatal(err)
-	}
-	exeDir := filepath.Dir(exePath)
 
-	// Read configuration JSON file
-	bytes, err := os.ReadFile(exeDir + "/openai.json")
+	// Read the configuration JSON file
+	bytes, err := os.ReadFile("./openai.json")
 	if err != nil {
-		log.Fatal(err)
+		// Get the executable path and directory
+		exePath, err := os.Executable()
+		if err != nil {
+			log.Fatal(err)
+		}
+		exeDir := filepath.Dir(exePath)
+
+		// Read configuration JSON file
+		bytes, err = os.ReadFile(exeDir + "/openai.json")
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	// Unmarshal the configuration JSON
@@ -131,6 +136,26 @@ No prologue or epilogue. Respond in the following JSON format:
 	}
 
 	// Create the version command
+	scCmd := &cobra.Command{
+		Use:   "sc",
+		Short: "Scafold code",
+		Run: func(cmd *cobra.Command, args []string) {
+			system_prompt := `You are an AI that can help scaffold code in any programming language.
+
+Rules:
+- If the user requests something not related to scaffold code, do not generate any commands.
+- Do your best to make the code very usable from the start.
+
+No prologue or epilogue. Respond in the following JSON format:
+[{
+"filepath":"main.py",
+"code":"print('Hello World')"
+}]`
+			Scafolder(system_prompt, prompt)
+		},
+	}
+
+	// Create the version command
 	versionCmd := &cobra.Command{
 		Use:   "version",
 		Short: "Print the application version",
@@ -143,6 +168,7 @@ No prologue or epilogue. Respond in the following JSON format:
 	rootCmd.AddCommand(gitCmd)
 	rootCmd.AddCommand(azCmd)
 	rootCmd.AddCommand(k8sCmd)
+	rootCmd.AddCommand(scCmd)
 	rootCmd.AddCommand(versionCmd)
 
 	rootCmd.PersistentFlags().StringVarP(&prompt, "prompt", "p", "", "natural language CLI prompt")

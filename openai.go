@@ -26,6 +26,8 @@ func ChatCompletion(messages []Message, model string, temperature float64) (stri
 		return "", err
 	}
 
+	//fmt.Println("Calling openai API", string(jsonPayload), app.Endpoint)
+
 	// Create a new HTTP request
 	req, err := http.NewRequest("POST", app.Endpoint, bytes.NewBuffer(jsonPayload))
 	if err != nil {
@@ -47,6 +49,11 @@ func ChatCompletion(messages []Message, model string, temperature float64) (stri
 		return "", err
 	}
 	defer resp.Body.Close()
+
+	//fmt.Println("Response Status:", resp.Status)
+	if resp.StatusCode != 200 {
+		return "", fmt.Errorf("Error: %s", resp.Status)
+	}
 
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
