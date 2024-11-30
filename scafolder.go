@@ -63,11 +63,11 @@ func Scafolder(system_prompt, prompt string) {
 	//fmt.Println("Generated code files:", codefiles)
 	fmt.Print("Generated code:\n\n")
 	for _, codefile := range codefiles {
-		color.Yellow.Println(codefile.Filepath)
+		color.Yellow.Println("File: " + codefile.Filepath)
 		color.Cyan.Println(codefile.Code + "\n")
 	}
 
-	if AskForConfirmation("Do you want to write the code files?") {
+	if AskForConfirmation("Do you want to write files?") {
 		for _, codefile := range codefiles {
 			err := createFolderIfNotExists(codefile.Filepath)
 			if err != nil {
