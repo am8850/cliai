@@ -1,6 +1,6 @@
-package main
+package services
 
-type App struct {
+type OpenAISettings struct {
 	Endpoint  string `json:"endpoint"`
 	Key       string `json:"key"`
 	Version   string `json:"version"`

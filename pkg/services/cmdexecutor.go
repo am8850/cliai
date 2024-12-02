@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"encoding/json"
@@ -41,14 +41,14 @@ func ExecShell(confirm bool, command string, args []string) {
 	}
 }
 
-func Process(systemMessage, prompt string, confirm, list bool) {
+func Process(systemMessage, prompt string, confirm, list bool, app *OpenAISettings) {
 	// Create the system and user messages
 	system := Message{Role: "system", Content: systemMessage}
 	user := Message{Role: "user", Content: prompt}
 	messages := []Message{system, user}
 
 	// Execute the chat completion
-	jdata, err := ChatCompletion(messages, app.ChatModel, 0.1)
+	jdata, err := ChatCompletion(messages, app.ChatModel, 0.1, app)
 	if err != nil {
 		fmt.Println("Unable to generate a completion with error:")
 		color.Red.Println(err)

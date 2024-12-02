@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"bytes"
@@ -8,7 +8,11 @@ import (
 	"net/http"
 )
 
-func ChatCompletion(messages []Message, model string, temperature float64) (string, error) {
+var (
+	client = &http.Client{}
+)
+
+func ChatCompletion(messages []Message, model string, temperature float64, app *OpenAISettings) (string, error) {
 	if model == "" {
 		model = app.ChatModel
 	}
@@ -40,7 +44,7 @@ func ChatCompletion(messages []Message, model string, temperature float64) (stri
 	req.Header.Set("api-key", app.Key)
 
 	// Create a new HTTP client
-	client := &http.Client{}
+	//client := &http.Client{}
 
 	// Send the request
 	resp, err := client.Do(req)
@@ -72,4 +76,10 @@ func ChatCompletion(messages []Message, model string, temperature float64) (stri
 
 	// Print the response message
 	return response.Choices[0].Message.Content, nil
+}
+
+func DisposeClient() {
+	if client != nil {
+		client.CloseIdleConnections()
+	}
 }
