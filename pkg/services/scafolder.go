@@ -62,7 +62,7 @@ func Scafolder(system_prompt, prompt string, app *OpenAISettings) {
 		color.Cyan.Println(codefile.Code + "\n")
 	}
 
-	if AskForConfirmation("Do you want to write files?") {
+	if askForConfirmation("Do you want to write files?") {
 		for _, codefile := range codefiles {
 			err := createFolderIfNotExists(codefile.Filepath)
 			if err != nil {

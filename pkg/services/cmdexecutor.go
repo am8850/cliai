@@ -9,20 +9,20 @@ import (
 	"github.com/gookit/color"
 )
 
-func AskForConfirmation(s string) bool {
+func askForConfirmation(s string) bool {
 	var response string
 	color.Yellow.Printf("%s (y/n): ", s)
 	fmt.Scanln(&response)
 	return response == "y" || response == "Y"
 }
 
-func ExecShell(confirm bool, command string, args []string) {
+func execShell(confirm bool, command string, args []string) {
 
 	fmt.Print("Generated command: ")
 	//sargs := strings.Join(args, "")
 	color.Cyan.Println(command, args)
 	if confirm {
-		confirm = AskForConfirmation("Do you want to execute the command?")
+		confirm = askForConfirmation("Do you want to execute the command?")
 		if !confirm {
 			fmt.Println("")
 			return
@@ -75,6 +75,6 @@ func Process(systemMessage, prompt string, confirm, list bool, app *OpenAISettin
 
 	// Execute the commands
 	for _, command := range commands {
-		ExecShell(confirm, command.Command, command.Args)
+		execShell(confirm, command.Command, command.Args)
 	}
 }
