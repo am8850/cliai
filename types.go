@@ -31,3 +31,8 @@ type Command struct {
 	Command string   `json:"command"`
 	Args    []string `json:"args"`
 }
+
+type CodeFile struct {
+	Filepath string `json:"filepath"`
+	Code     string `json:"code"`
+}

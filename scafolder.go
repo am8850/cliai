@@ -9,11 +9,6 @@ import (
 	"github.com/gookit/color"
 )
 
-type CodeFile struct {
-	Filepath string `json:"filepath"`
-	Code     string `json:"code"`
-}
-
 func createFolderIfNotExists(filePath string) error {
 	// Get the directory from the filepath
 	dir := filepath.Dir(filePath)
