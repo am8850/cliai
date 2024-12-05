@@ -41,3 +41,11 @@ type CodeFile struct {
 	Filepath string `json:"filepath"`
 	Code     string `json:"code"`
 }
+
+type SanitizerResponse struct {
+	ReadabilityScore  int    `json:"readability_score"`
+	ReadabilityReason string `json:"readability_reason"`
+	CyclomaticScore   int    `json:"cyclomatic_score"`
+	CyclomaticReason  string `json:"cyclomatic_reason"`
+	ImprovedCode      string `json:"improved_code"`
+}

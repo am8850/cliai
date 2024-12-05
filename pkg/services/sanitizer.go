@@ -9,14 +9,6 @@ import (
 	"github.com/gookit/color"
 )
 
-type SanitizerResponse struct {
-	ReadabilityScore  int    `json:"readability_score"`
-	ReadabilityReason string `json:"readability_reason"`
-	CyclomaticScore   int    `json:"cyclomatic_score"`
-	CyclomaticReason  string `json:"cyclomatic_reason"`
-	ImprovedCode      string `json:"improved_code"`
-}
-
 func Sanitizer(system_prompt, file, output string, settings *OpenAISettings) {
 
 	// Read the text in a file
@@ -52,8 +44,11 @@ func Sanitizer(system_prompt, file, output string, settings *OpenAISettings) {
 		return
 	}
 
-	fmt.Println("Propose code:\n")
-	color.Cyan.Println(sanitizedResponse.ImprovedCode)
+	fmt.Printf("Original coded:\n\n")
+	color.Cyan.Println(string(prompt))
+
+	fmt.Printf("Propose coded:\n\n")
+	color.Green.Println(sanitizedResponse.ImprovedCode)
 
 	if askForConfirmation("Do you want to write the file?") {
 		// Write the sanitized code to a file
