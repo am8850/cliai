@@ -42,7 +42,7 @@ func Sanitizer(system_prompt, file, output string, settings *OpenAISettings) {
 		color.Red.Println(err)
 		return
 	}
-	fmt.Println("JSON:\n", jdata)
+	//fmt.Println("JSON:\n", jdata)
 
 	var sanitizedResponse SanitizerResponse
 	err = json.Unmarshal([]byte(jdata), &sanitizedResponse)
@@ -52,7 +52,8 @@ func Sanitizer(system_prompt, file, output string, settings *OpenAISettings) {
 		return
 	}
 
-	fmt.Println("JSON:\n", sanitizedResponse.ImprovedCode)
+	fmt.Println("Propose code:\n")
+	color.Cyan.Println(sanitizedResponse.ImprovedCode)
 
 	if askForConfirmation("Do you want to write the file?") {
 		// Write the sanitized code to a file
