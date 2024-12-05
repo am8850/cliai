@@ -19,15 +19,10 @@ var cmdGit = &cobra.Command{
 			return
 		}
 
-		system_prompt := `You are an AI that can help generate git commands.
-Rules:
-- If configuring the user name or email address, put the user name or email address in double quotes and configure locally unless the user specifies global.
-- If the user requests something not related to git, do not generate any commands.
+		system_prompt := findPrompt("git")
 
-No prologue or epilogue. Respond in the following JSON format:
-[
-{ "command": "git", "args": ["add", "."] },
-]`
+		oaiSettings.ResponseFormat = "text"
+
 		services.Process(system_prompt, prompt, !confirm, list, &oaiSettings)
 	},
 }

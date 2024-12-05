@@ -10,8 +10,9 @@ import (
 
 // Create the version command
 var cmdScaffod = &cobra.Command{
-	Use:   "sc",
-	Short: "Scafold code",
+	Use:     "scaffold",
+	Short:   "Scafold code",
+	Aliases: []string{"sc"},
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if prompt == "" {
@@ -20,17 +21,8 @@ var cmdScaffod = &cobra.Command{
 			return
 		}
 
-		system_prompt := `You are an AI that can help scaffold code in any programming language.
-
-Rules:
-- If the user requests something not related to scaffold code, do not generate any commands.
-- Do your best to make the code very usable from the start.
-
-No prologue or epilogue. Respond in the following JSON format:
-[{
-"filepath":"main.py",
-"code":"print('Hello World')"
-}]`
+		system_prompt := findPrompt("scaffold")
+		oaiSettings.ResponseFormat = "text"
 		services.Scafolder(system_prompt, prompt, &oaiSettings)
 	},
 }

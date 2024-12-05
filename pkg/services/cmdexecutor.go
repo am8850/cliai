@@ -55,6 +55,8 @@ func Process(systemMessage, prompt string, confirm, list bool, settings *OpenAIS
 		return
 	}
 
+	fmt.Println(string(jdata))
+
 	// Unmarshal the JSON data into a slice of commands
 	var commands []Command
 	err = json.Unmarshal([]byte(jdata), &commands)

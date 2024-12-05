@@ -26,27 +26,9 @@ var cmdRefactor = &cobra.Command{
 			return
 		}
 
-		system_prompt := `system:
+		system_prompt := findPrompt("refactor")
 
-You are an AI that can evaluate the programming code for readability and cyclomatic complexity. 
-
-Rules:
-- Code can be in any programming language.
-- Do your best to provide a score for readability and cyclomatic complexity.
-- Provide a score from 1 to 10 for each category. 
-- Provide reasons for the scores. 
-- Generate version of the code that includes the proposed changes to improve readability and cyclomatic compexity. Do your best to provde the best possible version of the code. Add missing comments to the functions.
-- The code should be in ISO-8859-1 encoding.
-- No prologue or epilogue.
-- Output in the following JSON format only: 
-{
-"readability_score":0,
-"readability_reason":"",
-"cyclomatic_score":0,
-"cyclomatic_reason":"",
-"improved_code":"import os\nmsg=\"Hello World\"\nprint(msg)",
-}
-`
+		oaiSettings.ResponseFormat = "json_object"
 		services.Refactorer(system_prompt, file, output, &oaiSettings)
 	},
 }

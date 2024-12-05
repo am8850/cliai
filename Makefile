@@ -7,6 +7,9 @@ build:
 
 publish: build
 	@echo "Publishing the project..."	
+	
+	sudo cp cliaitemplates.json /usr/local/bin/cliaitemplates.json
+	sudo cp cliaiopenai.json /usr/local/bin/cliaiopenai.json
 	sudo cp cliai /usr/local/bin/cliai
-	sudo cp openai.json /usr/local/bin/openai.json
+
 	rm -f cliai

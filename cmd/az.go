@@ -18,15 +18,11 @@ var cmdAzCli = &cobra.Command{
 			color.Cyan.Println("cliai az -p 'Show account information'")
 			return
 		}
-		system_prompt := `You are an AI that can help generate Azure CLI (az) commands.
 
-Rules:
-- If the user requests something not related to az commands or operations, do not generate any commands.
+		system_prompt := findPrompt("az")
 
-No prologue or epilogue. Respond in the following JSON format:
-[
-	{ "command": "az", "args": ["account", "show"] },
-]`
+		oaiSettings.ResponseFormat = "text"
+
 		services.Process(system_prompt, prompt, !confirm, list, &oaiSettings)
 	},
 }

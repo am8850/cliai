@@ -49,3 +49,8 @@ type SanitizerResponse struct {
 	CyclomaticReason  string `json:"cyclomatic_reason"`
 	ImprovedCode      string `json:"improved_code"`
 }
+
+type SystemPrompt struct {
+	Command      string `json:"command"`
+	SystemPrompt string `json:"system"`
+}
