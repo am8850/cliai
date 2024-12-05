@@ -1,4 +1,4 @@
-# cliai - CLI Commander
+# cliai - CLI AI Commander
 
 A utility written in Go to take natural language commands, generate git, Azure CLI and kubernetes commands, and execute them.
 
@@ -15,4 +15,10 @@ A utility written in Go to take natural language commands, generate git, Azure C
   - `cliai az -p "Get the first resource group in eastus as a table"`
 
 - kubectl CLI
-  - `cliai k8s -p "Get the all pods in all namespaces"`
+  - `cliai k -p "Get the all pods in all namespaces"`
+
+- Scaffold
+  - `cliai sc -p "Generate a Python FAST API to manage customer"`
+
+- Refactor
+  - `cliai re -f app.py -o app_new.app`
