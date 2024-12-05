@@ -63,11 +63,12 @@ func init() {
 	}
 
 	// Add the commands to the root command
-	RootCmd.AddCommand(gitCmd)
-	RootCmd.AddCommand(azCmd)
-	RootCmd.AddCommand(k8sCmd)
-	RootCmd.AddCommand(scCmd)
-	RootCmd.AddCommand(versionCmd)
+	RootCmd.AddCommand(cmdGit)
+	RootCmd.AddCommand(cmdAzCli)
+	RootCmd.AddCommand(cmdK8s)
+	RootCmd.AddCommand(cmdScaffod)
+	RootCmd.AddCommand(cmdSanitize)
+	RootCmd.AddCommand(cmdVersion)
 
 	// Add the flags to the root command
 	RootCmd.PersistentFlags().StringVarP(&prompt, "prompt", "p", "", "natural language CLI prompt")

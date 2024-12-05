@@ -9,7 +9,7 @@ import (
 )
 
 // Add the root command to the application
-var gitCmd = &cobra.Command{
+var cmdGit = &cobra.Command{
 	Use:   "git",
 	Short: "Generate and execute git CLI commands",
 	Run: func(cmd *cobra.Command, args []string) {

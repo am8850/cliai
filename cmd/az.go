@@ -9,7 +9,7 @@ import (
 )
 
 // Add the root command to the application
-var azCmd = &cobra.Command{
+var cmdAzCli = &cobra.Command{
 	Use:   "az",
 	Short: "Generate and execute Azure CLI commands",
 	Run: func(cmd *cobra.Command, args []string) {

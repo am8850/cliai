@@ -9,7 +9,7 @@ import (
 )
 
 // Add the root command to the application
-var k8sCmd = &cobra.Command{
+var cmdK8s = &cobra.Command{
 	Use:   "k8s",
 	Short: "Generate and execute Kubernetes CLI commands",
 	Run: func(cmd *cobra.Command, args []string) {

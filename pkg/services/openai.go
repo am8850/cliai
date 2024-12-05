@@ -12,15 +12,22 @@ var (
 	client = &http.Client{}
 )
 
-func ChatCompletion(messages []Message, model string, temperature float64, app *OpenAISettings) (string, error) {
+func ChatCompletion(messages []Message, model string, temperature float64, settings *OpenAISettings) (string, error) {
 	if model == "" {
-		model = app.ChatModel
+		model = settings.ChatModel
 	}
+
+	response_format := "json_object"
+	if settings.ResponseFormat != "" {
+		response_format = settings.ResponseFormat
+	}
+
 	// Create a new payload
 	payload := ChatRequest{
-		Messages:    messages,
-		Model:       model,
-		Temperature: temperature,
+		Messages:       messages,
+		Model:          model,
+		Temperature:    temperature,
+		ResponseFormat: &ChatResponsFormatType{Type: response_format},
 	}
 
 	// Marshal the payload into JSON
@@ -33,7 +40,7 @@ func ChatCompletion(messages []Message, model string, temperature float64, app *
 	//fmt.Println("Calling openai API", string(jsonPayload), app.Endpoint)
 
 	// Create a new HTTP request
-	req, err := http.NewRequest("POST", app.Endpoint, bytes.NewBuffer(jsonPayload))
+	req, err := http.NewRequest("POST", settings.Endpoint, bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		fmt.Println(err)
 		return "", err
@@ -41,7 +48,7 @@ func ChatCompletion(messages []Message, model string, temperature float64, app *
 
 	// Set the request headers
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("api-key", app.Key)
+	req.Header.Set("api-key", settings.Key)
 
 	// Create a new HTTP client
 	//client := &http.Client{}

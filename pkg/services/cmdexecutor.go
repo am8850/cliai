@@ -41,14 +41,14 @@ func execShell(confirm bool, command string, args []string) {
 	}
 }
 
-func Process(systemMessage, prompt string, confirm, list bool, app *OpenAISettings) {
+func Process(systemMessage, prompt string, confirm, list bool, settings *OpenAISettings) {
 	// Create the system and user messages
 	system := Message{Role: "system", Content: systemMessage}
 	user := Message{Role: "user", Content: prompt}
 	messages := []Message{system, user}
 
 	// Execute the chat completion
-	jdata, err := ChatCompletion(messages, app.ChatModel, 0.1, app)
+	jdata, err := ChatCompletion(messages, settings.ChatModel, 0.1, settings)
 	if err != nil {
 		fmt.Println("Unable to generate a completion with error:")
 		color.Red.Println(err)

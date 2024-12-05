@@ -9,7 +9,7 @@ import (
 )
 
 // Create the version command
-var scCmd = &cobra.Command{
+var cmdScaffod = &cobra.Command{
 	Use:   "sc",
 	Short: "Scafold code",
 	Run: func(cmd *cobra.Command, args []string) {
