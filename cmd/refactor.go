@@ -14,15 +14,15 @@ var (
 )
 
 // Create the version command
-var cmdSanitize = &cobra.Command{
-	Use:     "sanitize",
-	Aliases: []string{"sa"},
-	Short:   "Sanitize code",
+var cmdRefactor = &cobra.Command{
+	Use:     "refactor",
+	Aliases: []string{"re"},
+	Short:   "Evaludate code for clarity and less complexity",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if file == "" {
 			fmt.Println("Please provide a command. Example:")
-			color.Cyan.Println("cliai sa -f app.py -o app_sanitized.py")
+			color.Cyan.Println("cliai re -f app.py -o app_sanitized.py")
 			return
 		}
 
@@ -47,11 +47,11 @@ Rules:
 "improved_code":"import os\nmsg=\"Hello World\"\nprint(msg)",
 }
 `
-		services.Sanitizer(system_prompt, file, output, &oaiSettings)
+		services.Refactorer(system_prompt, file, output, &oaiSettings)
 	},
 }
 
 func init() {
-	cmdSanitize.PersistentFlags().StringVarP(&file, "file", "f", "", "The file path to sanitize [required]")
-	cmdSanitize.PersistentFlags().StringVarP(&output, "output", "o", "", "The output file path and name")
+	cmdRefactor.PersistentFlags().StringVarP(&file, "file", "f", "", "The file path to sanitize [required]")
+	cmdRefactor.PersistentFlags().StringVarP(&output, "output", "o", "", "The output file path and name")
 }

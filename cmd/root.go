@@ -67,7 +67,7 @@ func init() {
 	RootCmd.AddCommand(cmdAzCli)
 	RootCmd.AddCommand(cmdK8s)
 	RootCmd.AddCommand(cmdScaffod)
-	RootCmd.AddCommand(cmdSanitize)
+	RootCmd.AddCommand(cmdRefactor)
 	RootCmd.AddCommand(cmdVersion)
 
 	// Add the flags to the root command

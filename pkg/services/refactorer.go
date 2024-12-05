@@ -9,7 +9,7 @@ import (
 	"github.com/gookit/color"
 )
 
-func Sanitizer(system_prompt, file, output string, settings *OpenAISettings) {
+func Refactorer(system_prompt, file, output string, settings *OpenAISettings) {
 
 	// Read the text in a file
 	prompt, err := os.ReadFile(file)
@@ -44,13 +44,37 @@ func Sanitizer(system_prompt, file, output string, settings *OpenAISettings) {
 		return
 	}
 
-	fmt.Printf("Original coded:\n\n")
-	color.Cyan.Println(string(prompt))
+	fmt.Printf("\nCode information:\n\n")
 
-	fmt.Printf("Propose coded:\n\n")
+	fmt.Printf("Readability score: ")
+	if sanitizedResponse.ReadabilityScore < 5 {
+		color.Red.Println(sanitizedResponse.ReadabilityScore)
+	} else {
+		color.Cyan.Println(sanitizedResponse.ReadabilityScore)
+	}
+	fmt.Printf("Readability score reason:\n")
+	color.Cyan.Println(sanitizedResponse.ReadabilityReason)
+
+	fmt.Printf("\nCyclomatic complexity score: ")
+	if sanitizedResponse.CyclomaticScore > 5 {
+		color.Red.Println(sanitizedResponse.CyclomaticScore)
+	} else {
+		color.Cyan.Println(sanitizedResponse.CyclomaticScore)
+	}
+	fmt.Printf("Cyclomatic complexity score reason:\n")
+	color.Cyan.Println(sanitizedResponse.CyclomaticReason)
+
+	if !askForConfirmation("\nContinue to view the proposed code?") {
+		return
+	}
+
+	// fmt.Printf("\n\nOriginal code:\n\n")
+	// color.Cyan.Println(string(prompt))
+
+	fmt.Printf("\nProposed code changes:\n\n")
 	color.Green.Println(sanitizedResponse.ImprovedCode)
 
-	if askForConfirmation("Do you want to write the file?") {
+	if askForConfirmation("Write the code to a file?") {
 		// Write the sanitized code to a file
 		if output != "" {
 			err = os.WriteFile(output, []byte(sanitizedResponse.ImprovedCode), 0644)
