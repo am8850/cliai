@@ -16,18 +16,14 @@ var dockerCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if prompt == "" {
 			fmt.Println("Please provide a command. Example:")
-			color.Cyan.Println("cliai docker -p 'Show account information'")
+			color.Cyan.Println("cliai docker -p 'List all running containers'")
 			return
 		}
-		system_prompt := `You are an AI that can help generate docker and docker compose CLI commands.
 
-Rules:
-- If the user requests something not related to docker commands or operations, do not generate any commands.
+		system_prompt := findPrompt("docker")
 
-No prologue or epilogue. Respond in the following JSON format:
-[
-	{ "command": "docker", "args": ["image", "ls"] },
-]`
+		oaiSettings.ResponseFormat = "text"
+
 		services.Process(system_prompt, prompt, !confirm, list, &oaiSettings)
 	},
 }
