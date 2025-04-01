@@ -101,21 +101,13 @@ func init() {
 	//fmt.Println(prompts[0].Command, prompts[0].SystemPrompt)
 
 	// Add the commands to the root command
-<<<<<<< HEAD
 	RootCmd.AddCommand(cmdGit)
+	RootCmd.AddCommand(dockerCmd)
 	RootCmd.AddCommand(cmdAzCli)
 	RootCmd.AddCommand(cmdK8s)
 	RootCmd.AddCommand(cmdScaffod)
 	RootCmd.AddCommand(cmdRefactor)
 	RootCmd.AddCommand(cmdVersion)
-=======
-	RootCmd.AddCommand(gitCmd)
-	RootCmd.AddCommand(azCmd)
-	RootCmd.AddCommand(dockerCmd)
-	RootCmd.AddCommand(k8sCmd)
-	RootCmd.AddCommand(scCmd)
-	RootCmd.AddCommand(versionCmd)
->>>>>>> 1c736dc (Add Docker command support and update Makefile target)
 
 	// Add the flags to the root command
 	RootCmd.PersistentFlags().StringVarP(&prompt, "prompt", "p", "", "natural language CLI prompt")
