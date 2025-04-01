@@ -23,7 +23,7 @@ func execShell(confirm bool, command string, args []string) {
 	}
 
 	// Execute the command
-	if command == "kubectl" || command == "az" || command == "git" {
+	if command == "kubectl" || command == "az" || command == "git" || command == "docker" {
 		out, err := exec.Command(command, args...).Output()
 		if err != nil {
 			log.Fatal(err)

@@ -1,0 +1,6 @@
+{
+    "endpoint": "https://mdemo.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview",
+    "key": "187dbcd7784c48d0a364f54b87fd6051",
+    "version": "2024-02-15-preview",
+    "chat_model": "gpt-4o"
+}
