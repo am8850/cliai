@@ -7,18 +7,21 @@ build:
 	@echo "Building the project..."
 	go build 
 
-build-windows:
+dist-windows:
 	@echo "Building the project for Windows..."
 	GOOS=windows GOARCH=amd64 go build -o cliai.exe
+	rm -rf dist && mkdir dist
+	sudo cp cliaitemplates.json dist/cliaitemplates.json
+	sudo cp .env dist/cliaiopenai.json
+	sudo cp cliai.exe dist/cliai.exe
 
-build-macos:
+dist-macos:
 	@echo "Building the project for MacOS..."
-	GOOS=darwin GOARCH=amd64 go build -o cliai
-
-
-	@echo "Installing team"
-	sudo cp cliai /usr/local/bin/cliai
-	sudo cp openai.json /usr/local/bin/cliaiopenai.json
+	GOOS=darwin GOARCH=amd64 go build -o cliai	
+	rm -rf dist && mkdir dist
+	sudo cp cliaitemplates.json dist/cliaitemplates.json
+	sudo cp .env dist/cliaiopenai.json
+	sudo cp cliai dist/cliai
 
 dist: build
 	rm -rf dist
