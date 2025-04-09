@@ -27,6 +27,8 @@ dist: build
 	cp cliaitemplates.json dist/cliaitemplates.json
 	cp .env dist/cliaiopenai.json
 	cd dist && zip cliai.zip cliai cliaitemplates.json cliaiopenai.json
+	cd dist && rm -f cliai cliaitemplates.json cliaiopenai.json
+	
 
 
 install: build
