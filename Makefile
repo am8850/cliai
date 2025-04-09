@@ -27,15 +27,11 @@ dist: build
 	cp cliaitemplates.json dist/cliaitemplates.json
 	cp .env dist/cliaiopenai.json
 	cd dist && zip cliai.zip cliai cliaitemplates.json cliaiopenai.json
-	cd dist && rm -f cliai cliaitemplates.json cliaiopenai.json
-	
-
+	cd dist && rm -f cliai cliaitemplates.json cliaiopenai.json	
 
 install: build
-	@echo "Publishing the project..."	
-	
+	@echo "Publishing the project..."		
 	sudo cp cliaitemplates.json /usr/local/bin/cliaitemplates.json
 	sudo cp .env /usr/local/bin/cliaiopenai.json
 	sudo cp cliai /usr/local/bin/cliai
-
 	rm -f cliai
