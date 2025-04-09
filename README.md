@@ -11,6 +11,9 @@ A utility written in Go to take natural language commands, generate git, Azure C
 - Git CLI (Git compound command):
   - `cliai git -p "What is the git version and list all branches"`
 
+- Docker CLI
+  - `cliai docker -p "List all running containers"`
+
 - Azure CLI
   - `cliai az -p "Get the first resource group in eastus as a table"`
 
@@ -22,3 +25,6 @@ A utility written in Go to take natural language commands, generate git, Azure C
 
 - Refactor
   - `cliai re -f app.py -o app_new.app`
+
+- Any
+  - `cliai any -p "What is the speed of light?"`
