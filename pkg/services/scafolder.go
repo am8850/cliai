@@ -44,7 +44,7 @@ func Scafolder(system_prompt, prompt string, app *OpenAISettings) {
 		return
 	}
 
-	fmt.Println("JSON:\n", jdata)
+	//fmt.Println("JSON:\n", jdata)
 
 	// Unmarshal the JSON data into a slice of commands
 	var codefiles CodeFiles

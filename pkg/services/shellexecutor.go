@@ -11,11 +11,11 @@ import (
 
 func execShell(confirm bool, command string, args []string) {
 
-	fmt.Print("Generated command: ")
+	fmt.Print("Command: ")
 	//sargs := strings.Join(args, "")
 	color.Cyan.Println(command, args)
 	if confirm {
-		confirm = askForConfirmation("Do you want to execute the command?")
+		confirm = askForConfirmation("Do you want to execute this command?")
 		if !confirm {
 			fmt.Println("")
 			return
@@ -81,7 +81,7 @@ func Process(systemMessage, prompt string, confirm, list bool, settings *OpenAIS
 	if list {
 		fmt.Println("Generated commands:")
 		for _, command := range commands.Commands {
-			color.Cyan.Println(command.Command, command.Args)
+			color.Cyan.Println(command.Command, command.Args, "->", command.Explanation)
 		}
 		fmt.Println()
 	}

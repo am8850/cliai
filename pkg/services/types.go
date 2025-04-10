@@ -33,8 +33,9 @@ type ChatResponse struct {
 
 // Command represents the command to be executed
 type Command struct {
-	Command string   `json:"command"`
-	Args    []string `json:"args"`
+	Command     string   `json:"command"`
+	Args        []string `json:"args"`
+	Explanation string   `json:"explanation"`
 }
 
 type Commands struct {

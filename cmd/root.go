@@ -113,5 +113,5 @@ func init() {
 	// Add the flags to the root command
 	RootCmd.PersistentFlags().StringVarP(&prompt, "prompt", "p", "", "natural language CLI prompt")
 	RootCmd.PersistentFlags().BoolVarP(&confirm, "disable", "d", false, "disable command confirmation")
-	RootCmd.PersistentFlags().BoolVarP(&list, "list", "l", false, "list all commands first")
+	RootCmd.PersistentFlags().BoolVarP(&list, "list", "l", true, "list all commands first")
 }
