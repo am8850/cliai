@@ -65,10 +65,10 @@ func Process(systemMessage, prompt string, confirm, list bool, settings *OpenAIS
 		return
 	}
 
-	fmt.Println("Payload:\n", jdata)
+	//fmt.Println("Payload:\n", jdata)
 
 	// Unmarshal the JSON data into a slice of commands
-	var commands []Command
+	var commands Commands
 	err = json.Unmarshal([]byte(jdata), &commands)
 	if err != nil {
 		fmt.Println("Unable to parse the command with error:")
@@ -80,14 +80,14 @@ func Process(systemMessage, prompt string, confirm, list bool, settings *OpenAIS
 	// if requested, list the generated commands first
 	if list {
 		fmt.Println("Generated commands:")
-		for _, command := range commands {
+		for _, command := range commands.Commands {
 			color.Cyan.Println(command.Command, command.Args)
 		}
 		fmt.Println()
 	}
 
 	// Execute the commands
-	for _, command := range commands {
+	for _, command := range commands.Commands {
 		execShell(confirm, command.Command, command.Args)
 	}
 }

@@ -22,7 +22,7 @@ var cmdK8s = &cobra.Command{
 
 		system_prompt := findPrompt("kubectl")
 
-		oaiSettings.ResponseFormat = "text"
+		oaiSettings.ResponseFormat = "json_object"
 
 		services.Process(system_prompt, prompt, !confirm, list, &oaiSettings)
 	},

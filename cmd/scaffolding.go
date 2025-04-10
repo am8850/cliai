@@ -22,7 +22,7 @@ var cmdScaffod = &cobra.Command{
 		}
 
 		system_prompt := findPrompt("scaffold")
-		oaiSettings.ResponseFormat = "text"
+		oaiSettings.ResponseFormat = "json_object"
 		services.Scafolder(system_prompt, prompt, &oaiSettings)
 	},
 }

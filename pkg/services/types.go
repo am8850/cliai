@@ -37,9 +37,17 @@ type Command struct {
 	Args    []string `json:"args"`
 }
 
+type Commands struct {
+	Commands []Command `json:"commands"`
+}
+
 type CodeFile struct {
 	Filepath string `json:"filepath"`
 	Code     string `json:"code"`
+}
+
+type CodeFiles struct {
+	Files []CodeFile `json:"files"`
 }
 
 type SanitizerResponse struct {

@@ -21,7 +21,7 @@ var cmdGit = &cobra.Command{
 
 		system_prompt := findPrompt("git")
 
-		oaiSettings.ResponseFormat = "text"
+		oaiSettings.ResponseFormat = "json_object"
 
 		services.Process(system_prompt, prompt, !confirm, list, &oaiSettings)
 	},

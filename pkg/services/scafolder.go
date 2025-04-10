@@ -44,10 +44,10 @@ func Scafolder(system_prompt, prompt string, app *OpenAISettings) {
 		return
 	}
 
-	//fmt.Println("JSON:\n", jdata)
+	fmt.Println("JSON:\n", jdata)
 
 	// Unmarshal the JSON data into a slice of commands
-	var codefiles []CodeFile
+	var codefiles CodeFiles
 	err = json.Unmarshal([]byte(jdata), &codefiles)
 	if err != nil {
 		fmt.Println("Unable to parse the command with error:")
@@ -58,13 +58,13 @@ func Scafolder(system_prompt, prompt string, app *OpenAISettings) {
 
 	//fmt.Println("Generated code files:", codefiles)
 	fmt.Print("Generated code:\n\n")
-	for _, codefile := range codefiles {
+	for _, codefile := range codefiles.Files {
 		color.Yellow.Println("File: " + codefile.Filepath)
 		color.Cyan.Println(codefile.Code + "\n")
 	}
 
 	if askForConfirmation("Do you want to write files?") {
-		for _, codefile := range codefiles {
+		for _, codefile := range codefiles.Files {
 			err := createFolderIfNotExists(codefile.Filepath)
 			if err != nil {
 				color.Red.Println("Error creating directory:", err)

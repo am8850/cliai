@@ -21,7 +21,7 @@ var cmdAzCli = &cobra.Command{
 
 		system_prompt := findPrompt("az")
 
-		oaiSettings.ResponseFormat = "text"
+		oaiSettings.ResponseFormat = "json_object"
 
 		services.Process(system_prompt, prompt, !confirm, list, &oaiSettings)
 	},
