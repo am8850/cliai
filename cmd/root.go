@@ -36,6 +36,7 @@ func init() {
 	RootCmd.AddCommand(cmdGit)
 	RootCmd.AddCommand(cmdDocker)
 	RootCmd.AddCommand(cmdAzCli)
+	RootCmd.AddCommand(cmdAzcopy)
 	RootCmd.AddCommand(cmdK8s)
 	RootCmd.AddCommand(cmdScaffod)
 	RootCmd.AddCommand(cmdRefactor)
