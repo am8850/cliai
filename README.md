@@ -1,6 +1,27 @@
 # cliai - CLI AI Commander
 
-A utility written in Go to take natural language commands, generate git, Azure CLI and kubernetes commands, and execute them.
+A utility written in Go to take natural language commands, generate git, Azure CLI and kubernetes commands, and execute them using models in Azure, OpenAI, and locally with Ollama.
+
+## Configuration
+
+Create a file `` with the following settings:
+```json
+{
+    "endpoint": "https://<NAME>.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2025-01-01-preview",
+    "key": "<KEY>",
+    "model": "gpt-4o",
+    "type": "azure",
+    "temperature": 0.1
+}
+```
+Where:
+- Type: azure or openai
+
+> Note: for Ollama, set the endpoint, and for the key enter `123`
+
+## Easy install - WSL, Ubuntu
+
+- For easy install type: `make install`
 
 ## Snapshot
 

@@ -1,5 +1,7 @@
 {
-    "endpoint": "",
-    "key": "",
-    "chat_model": "gpt-4o"
+    "endpoint": "https://<NAME>.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2025-01-01-preview",
+    "key": "<KEY>",
+    "model": "gpt-4o",
+    "type": "azure",
+    "temperature": 0.1
 }
