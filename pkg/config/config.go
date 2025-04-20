@@ -13,10 +13,11 @@ const (
 )
 
 type ModelConfig struct {
-	Endpoint       string `json:"endpoint"`
-	Key            string `json:"key"`
-	ChatModel      string `json:"chat_model"`
-	ResponseFormat string `json:"response_format"`
+	Endpoint    string  `json:"endpoint"`
+	Key         string  `json:"key"`
+	Model       string  `json:"model"`
+	Type        string  `json:"type"`
+	Temperature float64 `json:"temperature"`
 }
 
 type Template struct {
@@ -81,10 +82,13 @@ func GetConfig() (*Config, error) {
 			panic("Unable to parse file: " + MODEL_CONFIG_FILE)
 		}
 
-		if modelConfig.Endpoint == "" || modelConfig.Key == "" || modelConfig.ChatModel == "" {
-			panic("Missing required fields endpoint, key, or chat_model in " + MODEL_CONFIG_FILE)
+		if modelConfig.Endpoint == "" || modelConfig.Key == "" || modelConfig.Model == "" {
+			panic("Missing required fields endpoint, key, or model in " + MODEL_CONFIG_FILE)
 		}
 
+		if modelConfig.Temperature == 0 {
+			modelConfig.Temperature = 0.1
+		}
 		instance.ModelConfig = modelConfig
 
 		// Load system prompts

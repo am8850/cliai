@@ -23,8 +23,8 @@ func ChatCompletion(messages []config.Message, responseFormat string) (string, e
 	// Create a new payload
 	payload := config.ChatRequest{
 		Messages:       messages,
-		Model:          conf.ModelConfig.ChatModel,
-		Temperature:    0.1,
+		Model:          conf.ModelConfig.Model,
+		Temperature:    conf.ModelConfig.Temperature,
 		ResponseFormat: &config.ChatResponseFormatType{Type: responseFormat},
 	}
 
@@ -46,7 +46,11 @@ func ChatCompletion(messages []config.Message, responseFormat string) (string, e
 
 	// Set the request headers
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("api-key", conf.ModelConfig.Key)
+	if conf.ModelConfig.Type == "openai" {
+		req.Header.Set("Authorization", "Bearer "+conf.ModelConfig.Key)
+	} else {
+		req.Header.Set("api-key", conf.ModelConfig.Key)
+	}
 
 	// Create a new HTTP client
 	//client := &http.Client{}
