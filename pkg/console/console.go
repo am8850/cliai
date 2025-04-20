@@ -1,4 +1,4 @@
-package services
+package console
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/gookit/color"
 )
 
-func askForConfirmation(s string) bool {
+func AskForConfirmation(s string) bool {
 	var response string
 	color.Yellow.Printf("%s (y/n): ", s)
 	fmt.Scanln(&response)

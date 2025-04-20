@@ -1,4 +1,4 @@
-package services
+package processor
 
 import (
 	"encoding/json"
@@ -6,6 +6,9 @@ import (
 	"log"
 	"os/exec"
 
+	"github.com/am8850/cliai/pkg/config"
+	"github.com/am8850/cliai/pkg/console"
+	"github.com/am8850/cliai/pkg/openai"
 	"github.com/gookit/color"
 )
 
@@ -15,7 +18,7 @@ func execShell(confirm bool, command string, args []string) {
 	//sargs := strings.Join(args, "")
 	color.Cyan.Println(command, args)
 	if confirm {
-		confirm = askForConfirmation("Do you want to execute this command?")
+		confirm = console.AskForConfirmation("Do you want to execute this command?")
 		if !confirm {
 			fmt.Println("")
 			return
@@ -34,14 +37,14 @@ func execShell(confirm bool, command string, args []string) {
 	}
 }
 
-func Any(system, prompt string, settings *OpenAISettings) {
+func Any(system, prompt, format string) {
 	// Create the system and user messages
-	systemMessage := Message{Role: "system", Content: system}
-	userMessage := Message{Role: "user", Content: prompt}
-	messages := []Message{systemMessage, userMessage}
+	systemMessage := config.Message{Role: "system", Content: system}
+	userMessage := config.Message{Role: "user", Content: prompt}
+	messages := []config.Message{systemMessage, userMessage}
 
 	// Execute the chat completion
-	res, err := ChatCompletion(messages, settings.ChatModel, 0.1, settings)
+	res, err := openai.ChatCompletion(messages, format)
 	if err != nil {
 		fmt.Println("Unable to generate a completion with error:")
 		color.Red.Println(err)
@@ -51,14 +54,14 @@ func Any(system, prompt string, settings *OpenAISettings) {
 	fmt.Println("\n", res)
 }
 
-func Process(systemMessage, prompt string, confirm, list bool, settings *OpenAISettings) {
+func GenerateCommands(systemMessage, prompt string, confirm, list bool) {
 	// Create the system and user messages
-	system := Message{Role: "system", Content: systemMessage}
-	user := Message{Role: "user", Content: prompt}
-	messages := []Message{system, user}
+	system := config.Message{Role: "system", Content: systemMessage}
+	user := config.Message{Role: "user", Content: prompt}
+	messages := []config.Message{system, user}
 
 	// Execute the chat completion
-	jdata, err := ChatCompletion(messages, settings.ChatModel, 0.1, settings)
+	jdata, err := openai.ChatCompletion(messages, "json_object")
 	if err != nil {
 		fmt.Println("Unable to generate a completion with error:")
 		color.Red.Println(err)
@@ -68,7 +71,7 @@ func Process(systemMessage, prompt string, confirm, list bool, settings *OpenAIS
 	//fmt.Println("Payload:\n", jdata)
 
 	// Unmarshal the JSON data into a slice of commands
-	var commands Commands
+	var commands config.Commands
 	err = json.Unmarshal([]byte(jdata), &commands)
 	if err != nil {
 		fmt.Println("Unable to parse the command with error:")

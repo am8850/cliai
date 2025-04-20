@@ -1,4 +1,4 @@
-package services
+package config
 
 type OpenAISettings struct {
 	Endpoint       string `json:"endpoint"`
@@ -12,16 +12,16 @@ type Message struct {
 	Content string `json:"content"`
 }
 
-type ChatResponsFormatType struct {
+type ChatResponseFormatType struct {
 	Type string `json:"type"`
 }
 
 // Payload represents the JSON payload to be sent
 type ChatRequest struct {
-	Messages       []Message              `json:"messages"`
-	Model          string                 `json:"model"`
-	Temperature    float64                `json:"temperature"`
-	ResponseFormat *ChatResponsFormatType `json:"response_format"`
+	Messages       []Message               `json:"messages"`
+	Model          string                  `json:"model"`
+	Temperature    float64                 `json:"temperature"`
+	ResponseFormat *ChatResponseFormatType `json:"response_format"`
 }
 
 // Response represents the JSON response from the API

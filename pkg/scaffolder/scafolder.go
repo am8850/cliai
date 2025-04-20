@@ -1,4 +1,4 @@
-package services
+package scaffolder
 
 import (
 	"encoding/json"
@@ -6,6 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/am8850/cliai/pkg/config"
+	"github.com/am8850/cliai/pkg/console"
+	"github.com/am8850/cliai/pkg/openai"
 	"github.com/gookit/color"
 )
 
@@ -30,14 +33,14 @@ func createFolderIfNotExists(filePath string) error {
 	return nil
 }
 
-func Scafolder(system_prompt, prompt string, app *OpenAISettings) {
+func Scaffold(system_prompt, prompt string) {
 	// Create the system and user messages
-	system := Message{Role: "system", Content: system_prompt}
-	user := Message{Role: "user", Content: prompt}
-	messages := []Message{system, user}
+	system := config.Message{Role: "system", Content: system_prompt}
+	user := config.Message{Role: "user", Content: prompt}
+	messages := []config.Message{system, user}
 
 	// Execute the chat completion
-	jdata, err := ChatCompletion(messages, app.ChatModel, 0.1, app)
+	jdata, err := openai.ChatCompletion(messages, "json_object")
 	if err != nil {
 		fmt.Println("Unable to generate a completion with error:")
 		color.Red.Println(err)
@@ -47,7 +50,7 @@ func Scafolder(system_prompt, prompt string, app *OpenAISettings) {
 	//fmt.Println("JSON:\n", jdata)
 
 	// Unmarshal the JSON data into a slice of commands
-	var codefiles CodeFiles
+	var codefiles config.CodeFiles
 	err = json.Unmarshal([]byte(jdata), &codefiles)
 	if err != nil {
 		fmt.Println("Unable to parse the command with error:")
@@ -63,7 +66,7 @@ func Scafolder(system_prompt, prompt string, app *OpenAISettings) {
 		color.Cyan.Println(codefile.Code + "\n")
 	}
 
-	if askForConfirmation("Do you want to write files?") {
+	if console.AskForConfirmation("Do you want to write files?") {
 		for _, codefile := range codefiles.Files {
 			err := createFolderIfNotExists(codefile.Filepath)
 			if err != nil {

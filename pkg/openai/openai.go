@@ -1,4 +1,4 @@
-package services
+package openai
 
 import (
 	"bytes"
@@ -6,28 +6,26 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/am8850/cliai/pkg/config"
 )
 
 var (
 	client = &http.Client{}
 )
 
-func ChatCompletion(messages []Message, model string, temperature float64, settings *OpenAISettings) (string, error) {
-	if model == "" {
-		model = settings.ChatModel
-	}
-
-	response_format := "json_object"
-	if settings.ResponseFormat != "" {
-		response_format = settings.ResponseFormat
+func ChatCompletion(messages []config.Message, responseFormat string) (string, error) {
+	conf, _ := config.GetConfig()
+	if responseFormat == "" {
+		responseFormat = "text"
 	}
 
 	// Create a new payload
-	payload := ChatRequest{
+	payload := config.ChatRequest{
 		Messages:       messages,
-		Model:          model,
-		Temperature:    temperature,
-		ResponseFormat: &ChatResponsFormatType{Type: response_format},
+		Model:          conf.ModelConfig.ChatModel,
+		Temperature:    0.1,
+		ResponseFormat: &config.ChatResponseFormatType{Type: responseFormat},
 	}
 
 	// Marshal the payload into JSON
@@ -40,7 +38,7 @@ func ChatCompletion(messages []Message, model string, temperature float64, setti
 	//fmt.Println("Calling openai API", string(jsonPayload), app.Endpoint)
 
 	// Create a new HTTP request
-	req, err := http.NewRequest("POST", settings.Endpoint, bytes.NewBuffer(jsonPayload))
+	req, err := http.NewRequest("POST", conf.ModelConfig.Endpoint, bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		fmt.Println(err)
 		return "", err
@@ -48,7 +46,7 @@ func ChatCompletion(messages []Message, model string, temperature float64, setti
 
 	// Set the request headers
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("api-key", settings.Key)
+	req.Header.Set("api-key", conf.ModelConfig.Key)
 
 	// Create a new HTTP client
 	//client := &http.Client{}
@@ -74,7 +72,7 @@ func ChatCompletion(messages []Message, model string, temperature float64, setti
 	}
 
 	// Unmarshal the response into a struct
-	var response ChatResponse
+	var response config.ChatResponse
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		fmt.Println(err)

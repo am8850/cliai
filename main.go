@@ -4,11 +4,14 @@ import (
 	"log"
 
 	"github.com/am8850/cliai/cmd"
-	"github.com/am8850/cliai/pkg/services"
+	"github.com/am8850/cliai/pkg/config"
+	"github.com/am8850/cliai/pkg/openai"
 )
 
 func main() {
-	defer services.DisposeClient()
+	defer openai.DisposeClient()
+
+	config.GetConfig()
 
 	// Execute the root command
 	if err := cmd.RootCmd.Execute(); err != nil {

@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/am8850/cliai/pkg/services"
+	"github.com/am8850/cliai/pkg/config"
+	"github.com/am8850/cliai/pkg/scaffolder"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
@@ -21,8 +22,9 @@ var cmdScaffod = &cobra.Command{
 			return
 		}
 
-		system_prompt := findPrompt("scaffold")
-		oaiSettings.ResponseFormat = "json_object"
-		services.Scafolder(system_prompt, prompt, &oaiSettings)
+		template := config.FindTemplate("scaffold")
+		system_prompt := template.SystemPrompt
+
+		scaffolder.Scaffold(system_prompt, prompt)
 	},
 }

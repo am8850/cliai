@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/am8850/cliai/pkg/services"
+	"github.com/am8850/cliai/pkg/processor"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
@@ -23,9 +23,7 @@ var cmdAny = &cobra.Command{
 			color.Cyan.Println("cliai any -p 'What is the speed of light?'")
 			return
 		}
-		//fmt.Println("Prompt: ", system_prompt)
-		oaiSettings.ResponseFormat = response_format
-		services.Any(system_prompt, prompt, &oaiSettings)
+		processor.Any(system_prompt, prompt, response_format)
 	},
 }
 

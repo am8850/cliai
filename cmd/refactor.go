@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/am8850/cliai/pkg/services"
+	"github.com/am8850/cliai/pkg/config"
+	"github.com/am8850/cliai/pkg/refactorer"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
@@ -26,10 +27,10 @@ var cmdRefactor = &cobra.Command{
 			return
 		}
 
-		system_prompt := findPrompt("refactor")
+		template := config.FindTemplate("refactor")
+		system_prompt := template.SystemPrompt
 
-		oaiSettings.ResponseFormat = "json_object"
-		services.Refactorer(system_prompt, file, output, &oaiSettings)
+		refactorer.Refactor(system_prompt, file, output)
 	},
 }
 

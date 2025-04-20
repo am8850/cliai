@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/am8850/cliai/pkg/services"
+	"github.com/am8850/cliai/pkg/config"
+	"github.com/am8850/cliai/pkg/processor"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
@@ -20,10 +21,9 @@ var cmdK8s = &cobra.Command{
 			return
 		}
 
-		system_prompt := findPrompt("kubectl")
+		template := config.FindTemplate("kubectl")
+		system_prompt := template.SystemPrompt
 
-		oaiSettings.ResponseFormat = "json_object"
-
-		services.Process(system_prompt, prompt, !confirm, list, &oaiSettings)
+		processor.GenerateCommands(system_prompt, prompt, !confirm, list)
 	},
 }
