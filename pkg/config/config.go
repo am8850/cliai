@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
@@ -44,15 +45,15 @@ func readfile(fileName string) ([]byte, error) {
 		return bytes, nil
 	}
 
-	execPath, err := os.Executable()
-	file = filepath.Join(execPath, fileName)
+	execPath, _ := os.Executable()
+	file = filepath.Join(filepath.Dir(execPath), fileName)
 
 	bytes, err = os.ReadFile(file)
 	if err == nil {
 		return bytes, nil
 	}
+	fmt.Println("Error reading file: " + file)
 	return nil, err
-
 }
 
 func FindTemplate(command string) *Template {
